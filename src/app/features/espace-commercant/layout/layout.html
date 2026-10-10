@@ -1,0 +1,84 @@
+
+<div class="admin-layout">
+  <aside class="sidebar">
+    <a class="brand" routerLink="/espace/dashboard">
+      <span class="brand-icon">S</span>
+      <span class="brand-name">ShopSpace</span>
+    </a>
+
+    <div class="menu-label">MENU PRINCIPAL</div>
+
+    <nav class="navigation">
+      <a
+        routerLink="/espace/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-item"
+      >
+        <span class="nav-icon">⌂</span>
+        <span>Tableau de bord</span>
+      </a>
+
+      <a routerLink="/espace/produits" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">▦</span>
+        <span>Produits</span>
+      </a>
+
+      <a routerLink="/espace/stock" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Stock</span>
+      </a>
+
+      <a routerLink="/espace/commandes" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Commandes</span>
+      </a>
+
+      <a routerLink="/espace/clients" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">♙</span>
+        <span>Clients</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a routerLink="/espace/parametres" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⚙</span>
+        <span>Paramètres</span>
+      </a>
+
+      <div class="merchant-profile">
+        <div class="avatar">AD</div>
+        <div class="profile-info">
+          <span class="profile-name">Amadou Diop</span>
+          <span class="profile-role">Commerçant</span>
+        </div>
+        <span class="profile-menu">···</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="breadcrumb">
+        <span class="breadcrumb-muted">Espace commerçant</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Tableau de bord</span>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="icon-button" type="button" aria-label="Notifications">
+          ♧
+        </button>
+        <div class="topbar-divider"></div>
+        <span class="store-status">
+          <span class="status-dot"></span>
+          Boutique active
+        </span>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>
