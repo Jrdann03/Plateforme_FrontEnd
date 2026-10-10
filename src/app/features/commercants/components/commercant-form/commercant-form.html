@@ -1,0 +1,98 @@
+<section class="form-page">
+  <div class="form-heading">
+    <span class="eyebrow">GESTION DE LA PLATEFORME</span>
+    <h1>Nouveau commerçant</h1>
+    <p>Créez un espace commerçant sur votre plateforme.</p>
+  </div>
+
+  <form [formGroup]="commercantForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-section">
+      <h2>Informations personnelles</h2>
+      <p>Les coordonnées du propriétaire du commerce.</p>
+
+```
+  <div class="form-grid">
+    <div class="field">
+      <label for="nom">Nom *</label>
+      <input id="nom" type="text" formControlName="nom"
+        placeholder="Ex. Diop" autocomplete="family-name" />
+      @if (commercantForm.controls.nom.touched &&
+           commercantForm.controls.nom.invalid) {
+        <small class="error">Le nom est obligatoire.</small>
+      }
+    </div>
+
+    <div class="field">
+      <label for="prenom">Prénom *</label>
+      <input id="prenom" type="text" formControlName="prenom"
+        placeholder="Ex. Amadou" autocomplete="given-name" />
+      @if (commercantForm.controls.prenom.touched &&
+           commercantForm.controls.prenom.invalid) {
+        <small class="error">Le prénom est obligatoire.</small>
+      }
+    </div>
+
+    <div class="field">
+      <label for="email">Adresse e-mail *</label>
+      <input id="email" type="email" formControlName="email"
+        placeholder="nom@exemple.com" autocomplete="email" />
+      @if (commercantForm.controls.email.touched &&
+           commercantForm.controls.email.invalid) {
+        <small class="error">Saisissez une adresse e-mail valide.</small>
+      }
+    </div>
+
+    <div class="field">
+      <label for="telephone">Téléphone *</label>
+      <input id="telephone" type="tel" formControlName="telephone"
+        placeholder="+221 77 000 00 00" autocomplete="tel" />
+      @if (commercantForm.controls.telephone.touched &&
+           commercantForm.controls.telephone.invalid) {
+        <small class="error">Le téléphone est obligatoire.</small>
+      }
+    </div>
+
+    <div class="field full-width">
+      <label for="adresse">Adresse *</label>
+      <textarea id="adresse" formControlName="adresse"
+        placeholder="Adresse du commerçant" rows="3"
+        autocomplete="street-address"></textarea>
+      @if (commercantForm.controls.adresse.touched &&
+           commercantForm.controls.adresse.invalid) {
+        <small class="error">L'adresse est obligatoire.</small>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="form-section">
+  <h2>Configuration de la boutique</h2>
+  <p>Choisissez l'identifiant qui permettra d'accéder à la boutique.</p>
+
+  <div class="field">
+    <label for="sousDomaine">Sous-domaine *</label>
+    <div class="domain-input">
+      <input id="sousDomaine" type="text" formControlName="sousDomaine"
+        placeholder="ma-boutique" autocomplete="off" />
+      <span>.votre-plateforme.com</span>
+    </div>
+    <small class="hint">
+      Utilisez des lettres minuscules, des chiffres et des tirets.
+    </small>
+    @if (commercantForm.controls.sousDomaine.touched &&
+         commercantForm.controls.sousDomaine.invalid) {
+      <small class="error">
+        Saisissez un sous-domaine valide, sans espace ni tiret au début ou à la fin.
+      </small>
+    }
+  </div>
+</div>
+
+<div class="form-footer">
+  <span class="required-note">* Champs obligatoires</span>
+  <button type="submit">Créer le commerçant</button>
+</div>
+```
+
+  </form>
+</section>

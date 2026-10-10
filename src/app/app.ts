@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+/*import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -10,3 +10,17 @@ import { RouterOutlet } from '@angular/router';
 export class App {
   protected readonly title = signal('plateforme');
 }
+*/
+
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { CommercantForm } from './features/commercants/components/commercant-form/commercant-form';
+
+@Component({
+selector: 'app-root',
+standalone: true,
+imports: [RouterOutlet, CommercantForm],
+templateUrl: './app.html',
+styleUrl: './app.scss',
+})
+export class App {}
