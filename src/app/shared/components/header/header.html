@@ -1,0 +1,46 @@
+<header class="topbar">
+  <div class="header-context">
+    <span class="breadcrumb-muted">Espace commerçant</span>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-current">Tableau de bord</span>
+  </div>
+
+  <form class="search-form" role="search" (submit)="onSearchSubmit($event)">
+    <span class="search-icon" aria-hidden="true">⌕</span>
+
+    <input
+      type="search"
+      aria-label="Rechercher"
+      placeholder="Rechercher un produit, une commande..."
+      [value]="searchTerm()"
+      (input)="onSearchInput($event)"
+    />
+
+    @if (searchTerm()) {
+      <button
+        class="clear-button"
+        type="button"
+        aria-label="Effacer la recherche"
+        (click)="clearSearch()"
+      >
+        ×
+      </button>
+    }
+
+    <button class="search-button" type="submit">Rechercher</button>
+  </form>
+
+  <div class="header-actions">
+    <button class="icon-button" type="button" aria-label="Notifications">
+      ♧
+    </button>
+
+    <span class="header-divider" aria-hidden="true"></span>
+
+    <button class="profile-button" type="button" aria-label="Profil du commerçant">
+      <span class="avatar">AD</span>
+      <span class="profile-label">Mon compte</span>
+      <span class="profile-chevron" aria-hidden="true">⌄</span>
+    </button>
+  </div>
+</header>
