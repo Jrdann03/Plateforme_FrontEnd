@@ -31,6 +31,12 @@ export const routes: Routes = [
     ],
   },
 
+  {
+    path: 'demo',
+    loadComponent: () =>
+      import('./features/demo/demo/demo').then((m) => m.Demo),
+  },
+
   // Toute route inconnue revient à l'inscription
   {
     path: '**',
