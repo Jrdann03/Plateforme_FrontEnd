@@ -1,9 +1,8 @@
-
-
 import { Component, computed, input, output, signal } from '@angular/core';
 import {
   DEFAULT_HEADER_CONFIG,
   StoreHeaderConfig,
+  StoreHeaderConfigInput,
 } from './header.config';
 
 @Component({
@@ -14,7 +13,7 @@ import {
   styleUrl: './header.scss',
 })
 export class Header {
-  readonly configInput = input<Partial<StoreHeaderConfig>>(
+  readonly configInput = input<StoreHeaderConfigInput>(
     {},
     { alias: 'config' },
   );
