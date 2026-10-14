@@ -1,0 +1,49 @@
+
+
+:root {
+  // Identité visuelle de la boutique
+  --store-primary: #6366f1;
+  --store-primary-hover: #4f46e5;
+  --store-focus-ring: #a5b4fc;
+
+  // Typographie
+  --store-font-family: Inter, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --store-font-size: 13px;
+
+  // Couleurs générales
+  --store-page-bg: #f8fafc;
+  --store-text: #111827;
+  --store-text-muted: #64748b;
+  --store-text-inverse: #ffffff;
+
+  // Header
+  --store-header-bg: #0a0a0a;
+  --store-header-text: #e5e5e5;
+  --store-header-muted: #737373;
+  --store-header-border: #252525;
+  --store-header-control-bg: #141414;
+  --store-header-control-border: #303030;
+
+  // Footer
+  --store-footer-bg: #0a0a0a;
+  --store-footer-text: #737373;
+  --store-footer-link: #a3a3a3;
+  --store-footer-border: #252525;
+
+  // Formes
+  --store-radius-sm: 6px;
+  --store-radius-md: 8px;
+  --store-radius-lg: 9px;
+  --store-radius-card: 14px;
+
+  // Espacements
+  --store-header-padding-y: 14px;
+  --store-header-padding-x: 28px;
+  --store-footer-padding-y: 20px;
+  --store-footer-padding-x: 28px;
+
+  // Dimensions
+  --store-header-min-height: 76px;
+  --store-content-width: 1200px;
+}

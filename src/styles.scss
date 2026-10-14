@@ -1,15 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@use './styles/theme';
+
 * {
   box-sizing: border-box;
-  }
+}
 
 html {
-min-height: 100%;
-background: #f5f7fb;
+  min-height: 100%;
+  background: var(--store-page-bg);
 }
 
 body {
-margin: 0;
-font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
--webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--store-font-family);
+  -webkit-font-smoothing: antialiased;
 }
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+

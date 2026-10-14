@@ -1,46 +1,61 @@
-<header class="topbar">
-  <div class="header-context">
-    <span class="breadcrumb-muted">Espace commerçant</span>
-    <span class="breadcrumb-separator">/</span>
-    <span class="breadcrumb-current">Tableau de bord</span>
-  </div>
 
-  <form class="search-form" role="search" (submit)="onSearchSubmit($event)">
-    <span class="search-icon" aria-hidden="true">⌕</span>
+<header
+  class="store-header"
+  [style.--store-header-bg]="config().theme.background"
+  [style.--store-header-text]="config().theme.text"
+  [style.--store-header-muted]="config().theme.muted"
+  [style.--store-header-border]="config().theme.border"
+  [style.--store-header-control-bg]="config().theme.controlBackground"
+  [style.--store-header-control-border]="config().theme.controlBorder"
+  [style.--store-primary]="config().theme.primary"
+  [style.--store-primary-hover]="config().theme.primaryHover"
+  [style.--store-text-inverse]="config().theme.textInverse"
+  [style.--store-focus-ring]="config().theme.focusRing"
+  [style.--store-radius-sm]="config().theme.radiusSmall"
+  [style.--store-radius-lg]="config().theme.radiusLarge"
+  [style.--store-header-padding-x]="config().theme.paddingX"
+  [style.--store-header-padding-y]="config().theme.paddingY"
+>
+  @if (config().showNavigation) {
+    <nav class="store-navigation" aria-label="Navigation principale">
+      @for (item of config().navigation; track item.id) {
+        <a class="nav-link" [href]="item.href">
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+  }
 
-    <input
-      type="search"
-      aria-label="Rechercher"
-      placeholder="Rechercher un produit, une commande..."
-      [value]="searchTerm()"
-      (input)="onSearchInput($event)"
-    />
+  @if (config().showSearch) {
+    <form
+      class="search-form"
+      role="search"
+      (submit)="onSearchSubmit($event)"
+    >
+      <span class="search-icon" aria-hidden="true">⌕</span>
 
-    @if (searchTerm()) {
-      <button
-        class="clear-button"
-        type="button"
-        aria-label="Effacer la recherche"
-        (click)="clearSearch()"
-      >
-        ×
+      <input
+        type="search"
+        aria-label="Rechercher un produit"
+        [placeholder]="config().searchPlaceholder"
+        [value]="searchTerm()"
+        (input)="onSearchInput($event)"
+      />
+
+      @if (searchTerm()) {
+        <button
+          class="clear-button"
+          type="button"
+          aria-label="Effacer la recherche"
+          (click)="clearSearch()"
+        >
+          ×
+        </button>
+      }
+
+      <button class="search-button" type="submit">
+        {{ config().searchButtonLabel }}
       </button>
-    }
-
-    <button class="search-button" type="submit">Rechercher</button>
-  </form>
-
-  <div class="header-actions">
-    <button class="icon-button" type="button" aria-label="Notifications">
-      ♧
-    </button>
-
-    <span class="header-divider" aria-hidden="true"></span>
-
-    <button class="profile-button" type="button" aria-label="Profil du commerçant">
-      <span class="avatar">AD</span>
-      <span class="profile-label">Mon compte</span>
-      <span class="profile-chevron" aria-hidden="true">⌄</span>
-    </button>
-  </div>
+    </form>
+  }
 </header>
