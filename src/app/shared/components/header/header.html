@@ -1,6 +1,8 @@
-
 <header
   class="store-header"
+  [class.layout-classic]="config().layout === 'classic'"
+  [class.layout-centered]="config().layout === 'centered'"
+  [class.layout-search-focused]="config().layout === 'search-focused'"
   [style.--store-header-bg]="config().theme.background"
   [style.--store-header-text]="config().theme.text"
   [style.--store-header-muted]="config().theme.muted"
@@ -16,17 +18,80 @@
   [style.--store-header-padding-x]="config().theme.paddingX"
   [style.--store-header-padding-y]="config().theme.paddingY"
 >
-  @if (config().showNavigation) {
-    <nav class="store-navigation" aria-label="Navigation principale">
-      @for (item of config().navigation; track item.id) {
-        <a class="nav-link" [href]="item.href">
-          {{ item.label }}
-        </a>
+  <div class="header-main">
+    <!-- Logo -->
+    <a
+      class="store-logo"
+      [href]="config().logo.href || '/'"
+      [attr.aria-label]="config().logo.alt || config().logo.text || 'Accueil'"
+    >
+      @if (config().logo.type === 'image' && config().logo.imageUrl) {
+        <img
+          class="logo-image"
+          [src]="config().logo.imageUrl"
+          [alt]="config().logo.alt || config().logo.text || 'Logo'"
+        />
+      } @else {
+        <span class="logo-text">
+          {{ config().logo.text || 'Ma boutique' }}
+        </span>
       }
-    </nav>
-  }
+    </a>
 
-  @if (config().showSearch) {
+    <!-- Navigation -->
+    @if (config().showNavigation && config().navigation.length > 0) {
+      <nav class="store-navigation" aria-label="Navigation principale">
+        @for (item of config().navigation; track item.id) {
+          @if (item.visible !== false) {
+            <a
+              class="nav-link"
+              [href]="item.href"
+              [attr.target]="item.external ? '_blank' : null"
+              [attr.rel]="item.external ? 'noopener noreferrer' : null"
+            >
+              {{ item.label }}
+            </a>
+          }
+        }
+      </nav>
+    }
+
+    <!-- Actions -->
+    @if (config().actions.length > 0) {
+      <div class="header-actions">
+        @for (action of config().actions; track action.id) {
+          @if (action.visible !== false) {
+            @if (action.href) {
+              <a
+                class="header-action"
+                [class.action-primary]="action.style === 'primary'"
+                [class.action-secondary]="action.style === 'secondary'"
+                [class.action-text]="action.style === 'text' || !action.style"
+                [href]="action.href"
+                (click)="onActionClick(action.id)"
+              >
+                {{ action.label }}
+              </a>
+            } @else {
+              <button
+                class="header-action"
+                [class.action-primary]="action.style === 'primary'"
+                [class.action-secondary]="action.style === 'secondary'"
+                [class.action-text]="action.style === 'text' || !action.style"
+                type="button"
+                (click)="onActionClick(action.id)"
+              >
+                {{ action.label }}
+              </button>
+            }
+          }
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Recherche -->
+  @if (config().search.enabled) {
     <form
       class="search-form"
       role="search"
@@ -37,7 +102,7 @@
       <input
         type="search"
         aria-label="Rechercher un produit"
-        [placeholder]="config().searchPlaceholder"
+        [placeholder]="config().search.placeholder"
         [value]="searchTerm()"
         (input)="onSearchInput($event)"
       />
@@ -53,9 +118,11 @@
         </button>
       }
 
-      <button class="search-button" type="submit">
-        {{ config().searchButtonLabel }}
-      </button>
+      @if (config().search.showButton !== false) {
+        <button class="search-button" type="submit">
+          {{ config().search.buttonLabel || 'Rechercher' }}
+        </button>
+      }
     </form>
   }
 </header>

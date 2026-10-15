@@ -1,4 +1,5 @@
 import { Component, computed, input, output, signal } from '@angular/core';
+
 import {
   DEFAULT_HEADER_CONFIG,
   StoreHeaderConfig,
@@ -20,13 +21,28 @@ export class Header {
 
   protected readonly config = computed<StoreHeaderConfig>(() => {
     const custom = this.configInput();
+    const defaults = DEFAULT_HEADER_CONFIG;
 
     return {
-      ...DEFAULT_HEADER_CONFIG,
+      ...defaults,
       ...custom,
-      navigation: custom.navigation ?? DEFAULT_HEADER_CONFIG.navigation,
+
+      logo: {
+        ...defaults.logo,
+        ...custom.logo,
+      },
+
+      navigation: custom.navigation ?? defaults.navigation,
+
+      search: {
+        ...defaults.search,
+        ...custom.search,
+      },
+
+      actions: custom.actions ?? defaults.actions,
+
       theme: {
-        ...DEFAULT_HEADER_CONFIG.theme,
+        ...defaults.theme,
         ...custom.theme,
       },
     };
@@ -36,6 +52,8 @@ export class Header {
 
   readonly searchSubmitted = output<string>();
 
+  readonly actionClicked = output<string>();
+
   protected onSearchInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchTerm.set(input.value);
@@ -43,6 +61,10 @@ export class Header {
 
   protected onSearchSubmit(event: Event): void {
     event.preventDefault();
+
+    if (!this.config().search.enabled) {
+      return;
+    }
 
     const query = this.searchTerm().trim();
 
@@ -53,5 +75,9 @@ export class Header {
 
   protected clearSearch(): void {
     this.searchTerm.set('');
+  }
+
+  protected onActionClick(actionId: string): void {
+    this.actionClicked.emit(actionId);
   }
 }
