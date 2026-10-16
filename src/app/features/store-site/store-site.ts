@@ -6,6 +6,9 @@ import { Footer } from '../../shared/components/footer/footer';
 import {
   StoreFooterConfigInput,
 } from '../../shared/components/footer/footer.config';
+import {
+  HeaderConfigInput,
+} from '../../shared/components/header/header.config';
 
 @Component({
   selector: 'app-store-site',

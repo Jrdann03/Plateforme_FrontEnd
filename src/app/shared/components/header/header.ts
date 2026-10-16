@@ -1,6 +1,16 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 
-import { DEFAULTHEADERCONFIG, HeaderConfig, HeaderConfigInput, } from './header.config';
+import {
+  DEFAULTHEADERCONFIG,
+  HeaderConfig,
+  HeaderConfigInput,
+} from './header.config';
 
 @Component({
   selector: 'app-header',
@@ -9,73 +19,92 @@ import { DEFAULTHEADERCONFIG, HeaderConfig, HeaderConfigInput, } from './header.
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-
 export class Header {
+  /*
+   * Configuration reçue du composant parent.
+   *
+   * Elle peut être définie directement dans le frontend
+   * ou provenir du backend.
+   */
+  readonly configInput = input<HeaderConfigInput>(
+    {},
+    { alias: 'config' },
+  );
 
-//Configuration reçue du composant parent.
-/*
-Elle pourra être définie directement dans le frontend
-ou provenir ultérieurement du backend.
+  /*
+   * Configuration complète du header.
+   *
+   * Les propriétés absentes utilisent les valeurs par défaut.
+   */
+  protected readonly config = computed<HeaderConfig>(() => {
+    const custom = this.configInput();
+    const defaults = DEFAULTHEADERCONFIG;
 
-*/
-readonly configInput = input<HeaderConfigInput>( {}, { alias: 'config' }, );
+    return {
+      ...defaults,
+      ...custom,
 
-/*
-Configuration complète du header.
+      brand: {
+        ...defaults.brand,
+        ...custom.brand,
+      },
 
-Les propriétés non renseignées utilisent les valeurs par défaut.
+      logo: {
+        ...defaults.logo,
+        ...custom.logo,
+      },
 
-*/
-protected readonly config = computed<HeaderConfig>(() => { const custom = this.configInput(); const defaults = DEFAULTHEADERCONFIG;
+      navigation: custom.navigation ?? defaults.navigation,
 
-return { ...defaults, ...custom,
+      search: {
+        ...defaults.search,
+        ...custom.search,
+      },
+    };
+  });
 
-logo: { ...defaults.logo, ...custom.logo, },
+  /*
+   * Valeur actuellement saisie dans le champ de recherche.
+   */
+  protected readonly searchTerm = signal('');
 
-navigation: custom.navigation ?? defaults.navigation,
+  /*
+   * Événement émis lorsque l'utilisateur soumet une recherche.
+   *
+   * Le composant parent décide ensuite comment traiter la requête.
+   */
+  readonly searchSubmitted = output<string>();
 
-search: { ...defaults.search, ...custom.search, }, }; });
+  /*
+   * Met à jour la recherche pendant la saisie.
+   */
+  protected onSearchInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
 
-/*
+    this.searchTerm.set(inputElement.value);
+  }
 
-Valeur actuellement saisie dans la barre de recherche.
+  /*
+   * Soumet la recherche sans recharger la page.
+   */
+  protected onSearchSubmit(event: Event): void {
+    event.preventDefault();
 
-*/ protected readonly searchTerm = signal('');
+    if (!this.config().search.visible) {
+      return;
+    }
 
-/*
+    const query = this.searchTerm().trim();
 
-Événement émis lorsque l'utilisateur soumet une recherche.
+    if (query.length > 0) {
+      this.searchSubmitted.emit(query);
+    }
+  }
 
-*
-
-Le composant parent décidera ensuite comment traiter la requête.
-
-*/ readonly searchSubmitted = output<string>();
-
-/*
-
-Met à jour la recherche pendant la saisie.
-
-*/
-protected onSearchInput(event: Event): void { const inputElement = event.target as HTMLInputElement;
-
-this.searchTerm.set(inputElement.value); }
-
-/*
-
-Soumet la recherche sans recharger la page.
-
-*/ protected onSearchSubmit(event: Event): void { event.preventDefault();
-
-if (!this.config().search.visible) { return; }
-
-const query = this.searchTerm().trim();
-
-if (query.length > 0) { this.searchSubmitted.emit(query); } }
-
-/*
-
-Efface le contenu de la recherche.
-
-*/
-protected clearSearch(): void { this.searchTerm.set(''); } }
+  /**
+   * Efface le contenu de la recherche.
+   */
+  protected clearSearch(): void {
+    this.searchTerm.set('');
+  }
+}

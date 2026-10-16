@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // Page d'inscription : reste la page d'accueil
   {
     path: '',
     pathMatch: 'full',
@@ -10,9 +9,8 @@ export const routes: Routes = [
         .then((m) => m.CommercantForm),
   },
 
-  // Dashboard commerçant
   {
-    path: 'admin',
+    path: 'espace',
     loadComponent: () =>
       import('./features/espace-commercant/layout/layout')
         .then((m) => m.Layout),
@@ -34,10 +32,10 @@ export const routes: Routes = [
   {
     path: 'demo',
     loadComponent: () =>
-      import('./features/demo/demo/demo').then((m) => m.Demo),
+      import('./features/demo/demo/demo')
+        .then((m) => m.Demo),
   },
 
-  // Toute route inconnue revient à l'inscription
   {
     path: '**',
     redirectTo: '',

@@ -7,22 +7,26 @@
   <!-- Identité de la boutique -->
   <div class="header-identity">
     <a
-      class="store-brand"
-      [href]="config().logo.href || '/'"
-      [attr.aria-label]="'Accueil — ' + config().storeName"
-    >
-      @if (config().logo.visible && config().logo.imageUrl) {
-        <img
-          class="store-logo"
-          [src]="config().logo.imageUrl"
-          [alt]="config().logo.alt || config().storeName"
-        />
-      }
+  class="store-brand"
+  [href]="config().logo.href || '/'"
+  [attr.aria-label]="'Accueil — ' + config().storeName"
+>
+  <!-- Logo -->
+  @if (config().logo.visible && config().logo.imageUrl) {
+    <img
+      class="store-logo"
+      [src]="config().logo.imageUrl"
+      [alt]="config().logo.alt || config().storeName"
+    />
+  }
 
-      <span class="store-name">
-        {{ config().storeName }}
-      </span>
-    </a>
+  <!-- Nom commercial -->
+  @if (config().logo.nameVisible) {
+    <span class="store-name">
+      {{ config().storeName }}
+    </span>
+  }
+</a>
   </div>
 
   <!-- Navigation principale -->
@@ -44,7 +48,7 @@
     </nav>
   }
 
-  <!-- Barre de recherche -->
+  <!-- Recherche de produits -->
   @if (config().search.visible) {
     <form
       class="search-form"
@@ -53,7 +57,7 @@
     >
       <label
         class="visually-hidden"
-        for="store-search"
+        [attr.for]="'store-search-' + config().storeName"
       >
         Rechercher un produit
       </label>
@@ -66,9 +70,10 @@
       </span>
 
       <input
-        id="store-search"
+        [id]="'store-search-' + config().storeName"
         type="search"
         name="query"
+        autocomplete="off"
         [placeholder]="
           config().search.placeholder || 'Rechercher un produit...'
         "
@@ -83,7 +88,7 @@
           aria-label="Effacer la recherche"
           (click)="clearSearch()"
         >
-          ×
+          <span aria-hidden="true">×</span>
         </button>
       }
 

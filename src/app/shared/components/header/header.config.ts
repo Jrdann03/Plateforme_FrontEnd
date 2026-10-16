@@ -1,72 +1,171 @@
 /*
+ * Configuration du header partagé par toutes les boutiques.
+ *
+ * Le backend transmet les préférences du commerçant.
+ * Le frontend utilise cette configuration pour déterminer
+ * les éléments à afficher et leur disposition.
+ */
 
-Configuration du header partagé par toutes les boutiques.
+/* ==========================================================================
+   1. DISPOSITIONS DISPONIBLES
+   ========================================================================== */
 
-*
+export type HeaderLayout =
+  | 'classic'
+  | 'centered'
+  | 'search-focused';
 
-La configuration définit les éléments à afficher et leur disposition.
-Les valeurs seront fournies par le frontend ou par le backend.
-
-*/
-
-/* -------------------------------------------------------------------------- / / Disposition du header / / -------------------------------------------------------------------------- */
-
-export type HeaderLayout = | 'classic' | 'centered' | 'search-focused';
-
-/* -------------------------------------------------------------------------- / / Logo / / -------------------------------------------------------------------------- */
-
-export interface HeaderLogoConfig { visible: boolean; imageUrl?: string; alt?: string; href?: string; }
-
-/* -------------------------------------------------------------------------- / / Navigation / / -------------------------------------------------------------------------- */
-
-export interface HeaderNavigationItem { id: string; label: string; href: string; visible?: boolean; }
-
-/* -------------------------------------------------------------------------- / / Recherche / / -------------------------------------------------------------------------- */
-
-export interface HeaderSearchConfig { visible: boolean; placeholder?: string; }
-
-/* -------------------------------------------------------------------------- / / Configuration complète / / -------------------------------------------------------------------------- */
-
-export interface HeaderConfig { layout: HeaderLayout;
-
-/* Nom commercial de la boutique. */ storeName: string;
-
-/* Configuration du logo, facultatif à l'affichage. */ logo: HeaderLogoConfig;
-
-/* Affichage des liens de navigation. */ navigation: HeaderNavigationItem[];
-
-/* Configuration de la barre de recherche. */ search: HeaderSearchConfig; }
-
-/* -------------------------------------------------------------------------- / / Configuration partielle / / -------------------------------------------------------------------------- */
+/* ==========================================================================
+   2. IDENTITÉ DE LA BOUTIQUE
+   ========================================================================== */
 
 /*
+ * Détermine les éléments de l'identité à afficher.
+ *
+ * logo-and-name : logo et nom commercial.
+ * logo-only     : logo uniquement.
+ * name-only     : nom commercial uniquement.
+ */
+export type HeaderBrandDisplayMode =
+  | 'logo-and-name'
+  | 'logo-only'
+  | 'name-only';
 
-Permet de personnaliser seulement certaines propriétés.
-
-*
-
-Exemple :
-{
-layout: 'centered',
-storeName: 'Ma boutique'
+/*
+ * Configuration du logo.
+ */
+export interface HeaderLogoConfig {
+  visible: boolean;
+  nameVisible: boolean,
+  imageUrl?: string;
+  alt?: string;
+  href?: string;
 }
 
-*/ export interface HeaderConfigInput { layout?: HeaderLayout; storeName?: string;
+/*
+ * Configuration de l'identité commerciale.
+ */
+export interface HeaderBrandConfig {
+  displayMode: HeaderBrandDisplayMode;
+}
 
-logo?: Partial<HeaderLogoConfig>;
+/* ==========================================================================
+   3. NAVIGATION
+   ========================================================================== */
 
-navigation?: HeaderNavigationItem[];
+/*
+ * Représente un lien de navigation.
+ */
+export interface HeaderNavigationItem {
+  id: string;
+  label: string;
+  href: string;
+  visible?: boolean;
+}
 
-search?: Partial<HeaderSearchConfig>; }
+/* ==========================================================================
+   4. RECHERCHE
+   ========================================================================== */
 
-/* -------------------------------------------------------------------------- / / Configuration par défaut / / -------------------------------------------------------------------------- */
+/*
+ * Configuration de la barre de recherche.
+ */
+export interface HeaderSearchConfig {
+  visible: boolean;
+  placeholder?: string;
+}
 
-export const DEFAULTHEADERCONFIG: HeaderConfig = { layout: 'classic',
+/* ==========================================================================
+   5. CONFIGURATION COMPLÈTE
+   ========================================================================== */
 
-storeName: 'Ma boutique',
+/*
+ * Configuration complète attendue par le composant Header.
+ */
+export interface HeaderConfig {
+  layout: HeaderLayout;
 
-logo: { visible: false, imageUrl: '', alt: 'Logo de la boutique', href: '/', },
+  storeName: string;
 
-navigation: [ { id: 'home', label: 'Accueil', href: '/', visible: true, }, { id: 'products', label: 'Produits', href: '/produits', visible: true, }, { id: 'contact', label: 'Contact', href: '/contact', visible: true, }, ],
+  brand: HeaderBrandConfig;
 
-search: { visible: true, placeholder: 'Rechercher un produit...', }, };
+  logo: HeaderLogoConfig;
+
+  navigation: HeaderNavigationItem[];
+
+  search: HeaderSearchConfig;
+}
+
+/* ==========================================================================
+   6. CONFIGURATION PARTIELLE
+   ========================================================================== */
+
+/*
+ * Permet de transmettre uniquement les propriétés à personnaliser.
+ *
+ * Les propriétés absentes utilisent les valeurs par défaut.
+ */
+export interface HeaderConfigInput {
+  layout?: HeaderLayout;
+
+  storeName?: string;
+
+  brand?: Partial<HeaderBrandConfig>;
+
+  logo?: Partial<HeaderLogoConfig>;
+
+  navigation?: HeaderNavigationItem[];
+
+  search?: Partial<HeaderSearchConfig>;
+}
+
+/* ==========================================================================
+   7. CONFIGURATION PAR DÉFAUT
+   ========================================================================== */
+
+/**
+ * Valeurs utilisées lorsqu'un commerçant ne personnalise pas son header.
+ */
+export const DEFAULTHEADERCONFIG: HeaderConfig = {
+  layout: 'classic',
+
+  storeName: 'Ma boutique',
+
+  brand: {
+    displayMode: 'logo-and-name',
+  },
+
+  logo: {
+    visible: false,
+    imageUrl: '',
+    nameVisible: true,
+    alt: '',
+    href: '/',
+  },
+
+  navigation: [
+    {
+      id: 'home',
+      label: 'Accueil',
+      href: '/',
+      visible: true,
+    },
+    {
+      id: 'products',
+      label: 'Produits',
+      href: '/produits',
+      visible: true,
+    },
+    {
+      id: 'contact',
+      label: 'Contact',
+      href: '/contact',
+      visible: true,
+    },
+  ],
+
+  search: {
+    visible: true,
+    placeholder: 'Rechercher un produit...',
+  },
+};
