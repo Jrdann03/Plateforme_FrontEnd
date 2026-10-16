@@ -6,57 +6,73 @@
 }
 
 .store-footer {
-  --footer-bg: var(--store-footer-bg, #ffffff);
-  --footer-text: var(--store-footer-text, #374151);
-  --footer-muted: var(--store-footer-muted, #6b7280);
-  --footer-border: var(--store-footer-border, #e5e7eb);
-  --footer-link: var(--store-footer-link, #4b5563);
-  --footer-link-hover: var(--store-footer-link-hover, #2563eb);
-  --footer-focus: var(--store-focus-ring, #93c5fd);
-
   width: 100%;
-  padding: 40px 28px 20px;
-  border-top: 1px solid var(--footer-border);
-  background: var(--footer-bg);
-  color: var(--footer-text);
-  font-family: var(--store-font-family, inherit);
-  font-size: var(--store-font-size, 14px);
+  padding: var(--footer-padding-y, 36px) var(--footer-padding-x, 28px) 20px;
+  border-top: 1px solid var(--footer-border, #e5e7eb);
+  background: var(--footer-bg, #ffffff);
+  color: var(--footer-text, #171717);
+  font-family: var(--footer-font-family, inherit);
+  font-size: var(--footer-font-size, 13px);
+  box-sizing: border-box;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Contenu principal                                                         */
-/* -------------------------------------------------------------------------- */
+.store-footer *,
+.store-footer *::before,
+.store-footer *::after {
+  box-sizing: border-box;
+}
 
 .footer-main {
   display: grid;
   grid-template-columns: minmax(160px, 1fr) 3fr;
-  gap: 40px;
+  gap: var(--footer-column-gap, 32px);
   width: 100%;
-  max-width: 1440px;
+  max-width: var(--footer-content-width, 1200px);
   margin-inline: auto;
 }
 
 .footer-brand {
+  display: flex;
   min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.footer-brand-link {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.footer-logo {
+  display: block;
+  width: auto;
+  max-width: 160px;
+  max-height: 56px;
+  object-fit: contain;
 }
 
 .footer-brand-name {
-  display: inline-block;
-  overflow-wrap: anywhere;
-  color: var(--footer-text);
+  color: var(--footer-text, #171717);
   font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.4px;
+  text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Colonnes                                                                   */
-/* -------------------------------------------------------------------------- */
+.footer-brand-description {
+  max-width: 320px;
+  margin: 0;
+  color: var(--footer-muted, #737373);
+  font-size: inherit;
+  line-height: 1.7;
+}
 
 .footer-columns {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--footer-column-gap, 32px);
   min-width: 0;
 }
 
@@ -66,28 +82,25 @@
 
 .footer-column-title {
   margin: 0 0 16px;
-  color: var(--footer-text);
+  color: var(--footer-text, #171717);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .footer-link-list {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--footer-row-gap, 12px);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Liens                                                                      */
-/* -------------------------------------------------------------------------- */
-
 .footer-link {
-  color: var(--footer-link);
+  color: var(--footer-link, #525252);
   font-size: inherit;
   line-height: 1.6;
   text-decoration: none;
@@ -95,19 +108,26 @@
   transition: color 0.2s;
 
   &:hover {
-    color: var(--footer-link-hover);
+    color: var(--footer-link-hover, #2563eb);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--footer-focus);
+    outline: 2px solid var(--footer-focus, #93c5fd);
     outline-offset: 4px;
     border-radius: 2px;
   }
 }
 
-/* -------------------------------------------------------------------------- */
-/* Barre inférieure                                                           */
-/* -------------------------------------------------------------------------- */
+.footer-social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  width: 100%;
+  max-width: var(--footer-content-width, 1200px);
+  margin: 32px auto 0;
+}
 
 .footer-bottom {
   display: flex;
@@ -116,15 +136,15 @@
   flex-wrap: wrap;
   gap: 16px 24px;
   width: 100%;
-  max-width: 1440px;
+  max-width: var(--footer-content-width, 1200px);
   margin: 36px auto 0;
   padding-top: 20px;
-  border-top: 1px solid var(--footer-border);
+  border-top: 1px solid var(--footer-border, #e5e7eb);
 }
 
 .footer-copyright {
   margin: 0;
-  color: var(--footer-muted);
+  color: var(--footer-muted, #737373);
   font-size: 12px;
   line-height: 1.6;
 }
@@ -136,19 +156,19 @@
   gap: 12px 24px;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Variante : colonnes                                                        */
-/* -------------------------------------------------------------------------- */
+/* Disposition classique : marque à gauche, colonnes à droite. */
 
-.layout-columns {
+.layout-classic {
   .footer-main {
     grid-template-columns: minmax(160px, 1fr) 3fr;
   }
+
+  .footer-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
-/* -------------------------------------------------------------------------- */
-/* Variante : centrée                                                         */
-/* -------------------------------------------------------------------------- */
+/* Disposition centrée. */
 
 .layout-centered {
   .footer-main {
@@ -159,13 +179,19 @@
   }
 
   .footer-brand {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-brand-description {
     text-align: center;
   }
 
   .footer-columns {
-    display: flex;justify-content: center;
+    display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 40px;
+    gap: var(--footer-column-gap, 32px);
     width: 100%;
   }
 
@@ -188,15 +214,38 @@
   }
 }
 
-/* -------------------------------------------------------------------------- */
-/* Responsive : tablette                                                      */
-/* -------------------------------------------------------------------------- */
+/* Disposition centrée avec une identité plus visible. */
 
-@media (max-width: 900px) {
-  .store-footer {
-    padding: 32px 24px 20px;
+.layout-brand-focused {
+  .footer-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
   }
 
+  .footer-brand {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-brand-name {
+    font-size: 26px;
+  }
+
+  .footer-brand-description {
+    text-align: center;
+  }
+
+  .footer-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+}
+
+/* Tablettes. */
+
+@media (max-width: 900px) {
   .footer-main {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -204,13 +253,16 @@
 
   .footer-columns {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px;
+    gap: var(--footer-column-gap, 28px);
+  }
+
+  .layout-classic .footer-columns,
+  .layout-brand-focused .footer-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* -------------------------------------------------------------------------- */
-/* Responsive : mobile                                                        */
-/* -------------------------------------------------------------------------- */
+/* Mobiles. */
 
 @media (max-width: 560px) {
   .store-footer {
@@ -224,6 +276,11 @@
   .footer-columns {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+
+  .layout-classic .footer-columns,
+  .layout-brand-focused .footer-columns {
+    grid-template-columns: 1fr;
   }
 
   .footer-column-title {
@@ -246,7 +303,8 @@
     gap: 10px 18px;
   }
 
-  .layout-centered {
+  .layout-centered,
+  .layout-brand-focused {
     .footer-columns {
       display: flex;
       flex-direction: column;
@@ -264,10 +322,6 @@
     }
   }
 }
-
-/* -------------------------------------------------------------------------- */
-/* Accessibilité : réduction des animations                                   */
-/* -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   .footer-link {

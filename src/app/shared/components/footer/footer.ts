@@ -1,36 +1,49 @@
 import { Component, computed, input } from '@angular/core';
 
-import { DEFAULTFOOTERCONFIG, StoreFooterConfig, StoreFooterConfigInput, } from './footer.config';
+import {
+  DEFAULTFOOTERCONFIG,
+  StoreFooterConfig,
+  StoreFooterConfigInput,
+} from './footer.config';
 
-@Component({ selector: 'app-footer', standalone: true, imports: [], templateUrl: './footer.html', styleUrl: './footer.scss', }) export class Footer {
+@Component({
+  selector: 'app-footer',
+  standalone: true,
+  imports: [],
+  templateUrl: './footer.html',
+  styleUrl: './footer.scss',
+})
+export class Footer {
+  readonly configInput = input<StoreFooterConfigInput>(
+    {},
+    { alias: 'config' },
+  );
 
-/*
-Configuration reçue par le composant.
-Elle pourra provenir du composant StoreSite ou du backend.
+  protected readonly config = computed<StoreFooterConfig>(() => {
+    const custom = this.configInput();
+    const defaults = DEFAULTFOOTERCONFIG;
 
-*/ readonly configInput = input<StoreFooterConfigInput>( {}, { alias: 'config' }, );
+    return {
+      ...defaults,
+      ...custom,
 
-/*
+      brand: {
+        ...defaults.brand,
+        ...custom.brand,
+      },
 
-Configuration complète obtenue en fusionnant
-les valeurs par défaut et les personnalisations.
+      columns: custom.columns ?? defaults.columns,
 
-*/ protected readonly config = computed<StoreFooterConfig>(() => { const custom = this.configInput(); const defaults = DEFAULTFOOTERCONFIG;
+      socialLinks: custom.socialLinks ?? defaults.socialLinks,
 
-return { ...defaults, ...custom,
+      bottomLinks: custom.bottomLinks ?? defaults.bottomLinks,
 
-brand: { ...defaults.brand, ...custom.brand, },
+      theme: {
+        ...defaults.theme,
+        ...custom.theme,
+      },
+    };
+  });
 
-columns: custom.columns ?? defaults.columns,
-
-socialLinks: custom.socialLinks ?? defaults.socialLinks,
-
-bottomLinks: custom.bottomLinks ?? defaults.bottomLinks,
-
-theme: { ...defaults.theme, ...custom.theme, }, }; });
-
-/*
-
-Année actualisée automatiquement.
-
-*/ protected readonly currentYear = new Date().getFullYear(); }
+  protected readonly currentYear = new Date().getFullYear();
+}

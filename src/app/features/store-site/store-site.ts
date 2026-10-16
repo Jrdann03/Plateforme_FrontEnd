@@ -3,6 +3,10 @@ import { Component, input } from '@angular/core';
 import { Header } from '../../shared/components/header/header';
 import { Footer } from '../../shared/components/footer/footer';
 
+import {
+  StoreFooterConfigInput,
+} from '../../shared/components/footer/footer.config';
+
 @Component({
   selector: 'app-store-site',
   standalone: true,
@@ -13,25 +17,5 @@ import { Footer } from '../../shared/components/footer/footer';
 export class StoreSite {
   readonly storeName = input<string>('Ma boutique');
 
-  protected readonly footerConfig = {
-  storeName: 'Maison Élégance',
-  showStoreName: true,
-  layout: 'columns' as const,
-  showCopyright: true,
-  copyrightText: 'Tous droits réservés.',
-  columns: [
-    {
-      id: 'about',
-      title: 'À propos',
-      links: [
-        {
-          id: 'about-us',
-          label: 'Qui sommes-nous ?',
-          href: '/a-propos',
-        },
-      ],
-    },
-  ],
-  bottomLinks: [],
-};
+  readonly footerConfig = input<StoreFooterConfigInput>({});
 }

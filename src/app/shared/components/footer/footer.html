@@ -1,27 +1,61 @@
 <footer
   class="store-footer"
-  [class.layout-columns]="config().layout === 'columns'"
+  [class.layout-classic]="config().layout === 'classic'"
   [class.layout-centered]="config().layout === 'centered'"
+  [class.layout-brand-focused]="config().layout === 'brand-focused'"
+  [style.--footer-bg]="config().theme.background"
+  [style.--footer-text]="config().theme.text"
+  [style.--footer-muted]="config().theme.muted"
+  [style.--footer-border]="config().theme.border"
+  [style.--footer-link]="config().theme.link"
+  [style.--footer-link-hover]="config().theme.linkHover"
+  [style.--footer-focus]="config().theme.focusRing"
+  [style.--footer-font-family]="config().theme.fontFamily"
+  [style.--footer-font-size]="config().theme.fontSize"
+  [style.--footer-padding-x]="config().theme.paddingX"
+  [style.--footer-padding-y]="config().theme.paddingY"
+  [style.--footer-column-gap]="config().theme.columnGap"
+  [style.--footer-row-gap]="config().theme.rowGap"
+  [style.--footer-content-width]="config().theme.contentMaxWidth"
 >
-  <!-- Contenu principal -->
   <div class="footer-main">
-
-    <!-- Identité de la boutique -->
-    @if (config().showStoreName) {
+    @if (config().brand.name || config().brand.showLogo) {
       <div class="footer-brand">
-        <span class="footer-brand-name">
-          {{ config().storeName }}
-        </span>
+        @if (config().brand.showLogo && config().brand.logoUrl) {
+          <a
+            class="footer-brand-link"
+            [href]="config().brand.href || '/'"
+            [attr.aria-label]="config().brand.name"
+          >
+            <img
+              class="footer-logo"
+              [src]="config().brand.logoUrl"
+              [alt]="config().brand.logoAlt || config().brand.name"
+            />
+          </a>
+        }
+
+        @if (config().brand.name) {
+          <a
+            class="footer-brand-name"
+            [href]="config().brand.href || '/'"
+          >
+            {{ config().brand.name }}
+          </a>
+        }
+
+        @if (config().brand.description) {
+          <p class="footer-brand-description">
+            {{ config().brand.description }}
+          </p>
+        }
       </div>
     }
 
-    <!-- Colonnes d'informations -->
     <div class="footer-columns">
-
       @for (column of config().columns; track column.id) {
         @if (column.visible !== false) {
           <section class="footer-column">
-
             <h2 class="footer-column-title">
               {{ column.title }}
             </h2>
@@ -29,7 +63,6 @@
             @if (column.links.length > 0) {
               <nav [attr.aria-label]="column.title">
                 <ul class="footer-link-list">
-
                   @for (link of column.links; track link.id) {
                     @if (link.visible !== false) {
                       <li>
@@ -44,34 +77,42 @@
                       </li>
                     }
                   }
-
                 </ul>
               </nav>
             }
-
           </section>
         }
       }
-
     </div>
-
   </div>
 
-  <!-- Barre inférieure -->
-  <div class="footer-bottom">
+  @if (config().showSocialLinks && config().socialLinks.length > 0) {
+    <nav class="footer-social-links" aria-label="Réseaux sociaux">
+      @for (social of config().socialLinks; track social.id) {
+        @if (social.visible !== false) {
+          <a
+            class="footer-link"
+            [href]="social.href"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ social.label }}
+          </a>
+        }
+      }
+    </nav>
+  }
 
+  <div class="footer-bottom">
     @if (config().showCopyright) {
       <p class="footer-copyright">
-        © {{ currentYear }} {{ config().storeName }}.
+        © {{ currentYear }} {{ config().brand.name }}.
         {{ config().copyrightText }}
       </p>
     }
 
     @if (config().bottomLinks.length > 0) {
-      <nav
-        class="footer-bottom-links"
-        aria-label="Informations légales"
-      >
+      <nav class="footer-bottom-links" aria-label="Informations légales">
         @for (link of config().bottomLinks; track link.id) {
           @if (link.visible !== false) {
             <a
@@ -86,6 +127,5 @@
         }
       </nav>
     }
-
   </div>
 </footer>
