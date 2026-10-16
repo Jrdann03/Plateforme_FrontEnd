@@ -1,16 +1,91 @@
-<footer class="footer">
-  <div class="footer-content">
-    <p class="copyright">
-      © {{ currentYear }} PlateForme. Tous droits réservés.
-    </p>
+<footer
+  class="store-footer"
+  [class.layout-columns]="config().layout === 'columns'"
+  [class.layout-centered]="config().layout === 'centered'"
+>
+  <!-- Contenu principal -->
+  <div class="footer-main">
 
-```
-<nav class="footer-links" aria-label="Liens de pied de page">
-  <a href="/help">Aide et assistance</a>
-  <a href="/privacy">Confidentialité</a>
-  <a href="/terms">Conditions d'utilisation</a>
-</nav>
-```
+    <!-- Identité de la boutique -->
+    @if (config().showStoreName) {
+      <div class="footer-brand">
+        <span class="footer-brand-name">
+          {{ config().storeName }}
+        </span>
+      </div>
+    }
+
+    <!-- Colonnes d'informations -->
+    <div class="footer-columns">
+
+      @for (column of config().columns; track column.id) {
+        @if (column.visible !== false) {
+          <section class="footer-column">
+
+            <h2 class="footer-column-title">
+              {{ column.title }}
+            </h2>
+
+            @if (column.links.length > 0) {
+              <nav [attr.aria-label]="column.title">
+                <ul class="footer-link-list">
+
+                  @for (link of column.links; track link.id) {
+                    @if (link.visible !== false) {
+                      <li>
+                        <a
+                          class="footer-link"
+                          [href]="link.href"
+                          [attr.target]="link.external ? '_blank' : null"
+                          [attr.rel]="link.external ? 'noopener noreferrer' : null"
+                        >
+                          {{ link.label }}
+                        </a>
+                      </li>
+                    }
+                  }
+
+                </ul>
+              </nav>
+            }
+
+          </section>
+        }
+      }
+
+    </div>
+
+  </div>
+
+  <!-- Barre inférieure -->
+  <div class="footer-bottom">
+
+    @if (config().showCopyright) {
+      <p class="footer-copyright">
+        © {{ currentYear }} {{ config().storeName }}.
+        {{ config().copyrightText }}
+      </p>
+    }
+
+    @if (config().bottomLinks.length > 0) {
+      <nav
+        class="footer-bottom-links"
+        aria-label="Informations légales"
+      >
+        @for (link of config().bottomLinks; track link.id) {
+          @if (link.visible !== false) {
+            <a
+              class="footer-link"
+              [href]="link.href"
+              [attr.target]="link.external ? '_blank' : null"
+              [attr.rel]="link.external ? 'noopener noreferrer' : null"
+            >
+              {{ link.label }}
+            </a>
+          }
+        }
+      </nav>
+    }
 
   </div>
 </footer>

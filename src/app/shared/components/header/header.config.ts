@@ -1,194 +1,72 @@
-/**
- * Configuration du header partagé par toutes les boutiques.
- * Chaque commerçant pourra personnaliser son header
- * sans créer un nouveau composant Angular.
- */
+/*
 
-/* -------------------------------------------------------------------------- */
-/* Navigation                                                                 */
-/* -------------------------------------------------------------------------- */
+Configuration du header partagé par toutes les boutiques.
 
-export interface HeaderNavigationItem {
-  id: string;
-  label: string;
-  href: string;
-  visible?: boolean;
-  external?: boolean;
+*
+
+La configuration définit les éléments à afficher et leur disposition.
+Les valeurs seront fournies par le frontend ou par le backend.
+
+*/
+
+/* -------------------------------------------------------------------------- / / Disposition du header / / -------------------------------------------------------------------------- */
+
+export type HeaderLayout = | 'classic' | 'centered' | 'search-focused';
+
+/* -------------------------------------------------------------------------- / / Logo / / -------------------------------------------------------------------------- */
+
+export interface HeaderLogoConfig { visible: boolean; imageUrl?: string; alt?: string; href?: string; }
+
+/* -------------------------------------------------------------------------- / / Navigation / / -------------------------------------------------------------------------- */
+
+export interface HeaderNavigationItem { id: string; label: string; href: string; visible?: boolean; }
+
+/* -------------------------------------------------------------------------- / / Recherche / / -------------------------------------------------------------------------- */
+
+export interface HeaderSearchConfig { visible: boolean; placeholder?: string; }
+
+/* -------------------------------------------------------------------------- / / Configuration complète / / -------------------------------------------------------------------------- */
+
+export interface HeaderConfig { layout: HeaderLayout;
+
+/* Nom commercial de la boutique. */ storeName: string;
+
+/* Configuration du logo, facultatif à l'affichage. */ logo: HeaderLogoConfig;
+
+/* Affichage des liens de navigation. */ navigation: HeaderNavigationItem[];
+
+/* Configuration de la barre de recherche. */ search: HeaderSearchConfig; }
+
+/* -------------------------------------------------------------------------- / / Configuration partielle / / -------------------------------------------------------------------------- */
+
+/*
+
+Permet de personnaliser seulement certaines propriétés.
+
+*
+
+Exemple :
+{
+layout: 'centered',
+storeName: 'Ma boutique'
 }
 
-/* -------------------------------------------------------------------------- */
-/* Logo                                                                       */
-/* -------------------------------------------------------------------------- */
+*/ export interface HeaderConfigInput { layout?: HeaderLayout; storeName?: string;
 
-export interface HeaderLogoConfig {
-  type: 'text' | 'image';
-  text?: string;
-  imageUrl?: string;
-  alt?: string;
-  href?: string;
-}
+logo?: Partial<HeaderLogoConfig>;
 
-/* -------------------------------------------------------------------------- */
-/* Recherche                                                                  */
-/* -------------------------------------------------------------------------- */
+navigation?: HeaderNavigationItem[];
 
-export interface HeaderSearchConfig {
-  enabled: boolean;
-  placeholder: string;
-  buttonLabel?: string;
-  showButton?: boolean;
-}
+search?: Partial<HeaderSearchConfig>; }
 
-/* -------------------------------------------------------------------------- */
-/* Actions                                                                    */
-/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- / / Configuration par défaut / / -------------------------------------------------------------------------- */
 
-export type HeaderActionType =
-  | 'link'
-  | 'cart'
-  | 'account'
-  | 'contact';
+export const DEFAULTHEADERCONFIG: HeaderConfig = { layout: 'classic',
 
-export interface HeaderAction {
-  id: string;
-  label: string;
-  type: HeaderActionType;
-  href?: string;
-  visible?: boolean;
-  style?: 'primary' | 'secondary' | 'text';
-}
+storeName: 'Ma boutique',
 
-/* -------------------------------------------------------------------------- */
-/* Thème                                                                      */
-/* -------------------------------------------------------------------------- */
+logo: { visible: false, imageUrl: '', alt: 'Logo de la boutique', href: '/', },
 
-export interface HeaderTheme {
-  background: string;
-  text: string;
-  muted: string;
-  border: string;
+navigation: [ { id: 'home', label: 'Accueil', href: '/', visible: true, }, { id: 'products', label: 'Produits', href: '/produits', visible: true, }, { id: 'contact', label: 'Contact', href: '/contact', visible: true, }, ],
 
-  controlBackground: string;
-  controlBorder: string;
-
-  primary: string;
-  primaryHover: string;
-  textInverse: string;
-  focusRing: string;
-
-  radiusSmall: string;
-  radiusLarge: string;
-
-  paddingX: string;
-  paddingY: string;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Configuration complète                                                     */
-/* -------------------------------------------------------------------------- */
-
-export type HeaderLayout =
-  | 'classic'
-  | 'centered'
-  | 'search-focused';
-
-export interface StoreHeaderConfig {
-  logo: HeaderLogoConfig;
-  layout: HeaderLayout;
-
-  navigation: HeaderNavigationItem[];
-  showNavigation: boolean;
-
-  search: HeaderSearchConfig;
-
-  actions: HeaderAction[];
-
-  theme: HeaderTheme;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Configuration partielle                                                    */
-/* -------------------------------------------------------------------------- */
-
-export type StoreHeaderConfigInput = {
-  logo?: Partial<HeaderLogoConfig>;
-  layout?: HeaderLayout;
-
-  navigation?: HeaderNavigationItem[];
-  showNavigation?: boolean;
-
-  search?: Partial<HeaderSearchConfig>;
-
-  actions?: HeaderAction[];
-
-  theme?: Partial<HeaderTheme>;
-};
-
-/* -------------------------------------------------------------------------- */
-/* Valeurs par défaut                                                         */
-/* -------------------------------------------------------------------------- */
-
-export const DEFAULT_HEADER_CONFIG: StoreHeaderConfig = {
-  logo: {
-    type: 'text',
-    text: 'Ma boutique',
-    href: '/',
-  },
-
-  layout: 'classic',
-
-  navigation: [
-    { id: 'home', label: 'Accueil', href: '#accueil' },
-    { id: 'products', label: 'Produits', href: '#produits' },
-    { id: 'contact', label: 'Contact', href: '#contact' },
-  ],
-
-  showNavigation: true,
-
-  search: {
-    enabled: true,
-    placeholder: 'Rechercher un produit...',
-    buttonLabel: 'Rechercher',
-    showButton: true,
-  },
-
-  actions: [
-    {
-      id: 'account',
-      label: 'Mon compte',
-      type: 'account',
-      href: '/connexion',
-      visible: true,
-      style: 'text',
-    },
-    {
-      id: 'cart',
-      label: 'Panier',
-      type: 'cart',
-      href: '/panier',
-      visible: true,
-      style: 'secondary',
-    },
-  ],
-
-  theme: {
-    background: '#ffffff',
-    text: '#171717',
-    muted: '#737373',
-    border: '#e5e5e5',
-
-    controlBackground: '#ffffff',
-    controlBorder: '#d4d4d4',
-
-    primary: '#2563eb',
-    primaryHover: '#1d4ed8',
-    textInverse: '#ffffff',
-    focusRing: '#93c5fd',
-
-    radiusSmall: '6px',
-    radiusLarge: '9px',
-
-    paddingX: '28px',
-    paddingY: '14px',
-  },
-};
+search: { visible: true, placeholder: 'Rechercher un produit...', }, };

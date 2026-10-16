@@ -1,14 +1,12 @@
-import { Component, signal } from '@angular/core';
-import { Header } from '../../../shared/components/header/header';
-import { Footer } from '../../../shared/components/footer/footer';
+import { Component } from '@angular/core';
 
+import { StoreSite } from '../../store-site/store-site';
 
 @Component({
   selector: 'app-demo',
   standalone: true,
-  imports: [Header, Footer],
+  imports: [StoreSite],
   templateUrl: './demo.html',
   styleUrl: './demo.scss',
 })
-export class Demo {
-}
+export class Demo {}
