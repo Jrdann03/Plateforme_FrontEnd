@@ -1,16 +1,5 @@
-import {
-  Component,
-  computed,
-  input,
-  output,
-  signal,
-} from '@angular/core';
-
-import {
-  DEFAULTHEADERCONFIG,
-  HeaderConfig,
-  HeaderConfigInput,
-} from './header.config';
+import { Component, computed, input, output, signal } from '@angular/core';
+import { DEFAULTHEADERCONFIG, HeaderConfig, HeaderConfigInput } from './header.config';
 
 @Component({
   selector: 'app-header',
@@ -20,22 +9,8 @@ import {
   styleUrl: './header.scss',
 })
 export class Header {
-  /*
-   * Configuration reçue du composant parent.
-   *
-   * Elle peut être définie directement dans le frontend
-   * ou provenir du backend.
-   */
-  readonly configInput = input<HeaderConfigInput>(
-    {},
-    { alias: 'config' },
-  );
+  readonly configInput = input<HeaderConfigInput>({}, { alias: 'config' });
 
-  /*
-   * Configuration complète du header.
-   *
-   * Les propriétés absentes utilisent les valeurs par défaut.
-   */
   protected readonly config = computed<HeaderConfig>(() => {
     const custom = this.configInput();
     const defaults = DEFAULTHEADERCONFIG;
@@ -43,67 +18,32 @@ export class Header {
     return {
       ...defaults,
       ...custom,
-
-      brand: {
-        ...defaults.brand,
-        ...custom.brand,
-      },
-
-      logo: {
-        ...defaults.logo,
-        ...custom.logo,
-      },
-
+      brand: { ...defaults.brand, ...custom.brand },
+      logo: { ...defaults.logo, ...custom.logo },
       navigation: custom.navigation ?? defaults.navigation,
-
-      search: {
-        ...defaults.search,
-        ...custom.search,
-      },
+      search: { ...defaults.search, ...custom.search },
+      theme: { ...defaults.theme, ...custom.theme },
     };
   });
 
-  /*
-   * Valeur actuellement saisie dans le champ de recherche.
-   */
   protected readonly searchTerm = signal('');
-
-  /*
-   * Événement émis lorsque l'utilisateur soumet une recherche.
-   *
-   * Le composant parent décide ensuite comment traiter la requête.
-   */
   readonly searchSubmitted = output<string>();
 
-  /*
-   * Met à jour la recherche pendant la saisie.
-   */
   protected onSearchInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-
     this.searchTerm.set(inputElement.value);
   }
 
-  /*
-   * Soumet la recherche sans recharger la page.
-   */
   protected onSearchSubmit(event: Event): void {
     event.preventDefault();
-
-    if (!this.config().search.visible) {
-      return;
-    }
+    if (!this.config().search.visible) return;
 
     const query = this.searchTerm().trim();
-
     if (query.length > 0) {
       this.searchSubmitted.emit(query);
     }
   }
 
-  /**
-   * Efface le contenu de la recherche.
-   */
   protected clearSearch(): void {
     this.searchTerm.set('');
   }

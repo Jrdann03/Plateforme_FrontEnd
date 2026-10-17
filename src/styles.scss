@@ -1,19 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
-@use './styles/theme';
-
 * {
   box-sizing: border-box;
 }
 
 html {
   min-height: 100%;
-  background: var(--store-page-bg);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-  font-family: var(--store-font-family);
+  font-family: Inter, system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -23,4 +19,3 @@ textarea,
 select {
   font: inherit;
 }
-

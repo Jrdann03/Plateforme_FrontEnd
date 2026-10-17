@@ -1,61 +1,19 @@
-/*
- * Configuration du header partagé par toutes les boutiques.
- *
- * Le backend transmet les préférences du commerçant.
- * Le frontend utilise cette configuration pour déterminer
- * les éléments à afficher et leur disposition.
- */
+export type HeaderLayout = 'classic' | 'centered' | 'search-focused';
 
-/* ==========================================================================
-   1. DISPOSITIONS DISPONIBLES
-   ========================================================================== */
+export type HeaderBrandDisplayMode = 'logo-and-name' | 'logo-only' | 'name-only';
 
-export type HeaderLayout =
-  | 'classic'
-  | 'centered'
-  | 'search-focused';
-
-/* ==========================================================================
-   2. IDENTITÉ DE LA BOUTIQUE
-   ========================================================================== */
-
-/*
- * Détermine les éléments de l'identité à afficher.
- *
- * logo-and-name : logo et nom commercial.
- * logo-only     : logo uniquement.
- * name-only     : nom commercial uniquement.
- */
-export type HeaderBrandDisplayMode =
-  | 'logo-and-name'
-  | 'logo-only'
-  | 'name-only';
-
-/*
- * Configuration du logo.
- */
 export interface HeaderLogoConfig {
   visible: boolean;
-  nameVisible: boolean,
+  nameVisible: boolean;
   imageUrl?: string;
   alt?: string;
   href?: string;
 }
 
-/*
- * Configuration de l'identité commerciale.
- */
 export interface HeaderBrandConfig {
   displayMode: HeaderBrandDisplayMode;
 }
 
-/* ==========================================================================
-   3. NAVIGATION
-   ========================================================================== */
-
-/*
- * Représente un lien de navigation.
- */
 export interface HeaderNavigationItem {
   id: string;
   label: string;
@@ -63,73 +21,47 @@ export interface HeaderNavigationItem {
   visible?: boolean;
 }
 
-/* ==========================================================================
-   4. RECHERCHE
-   ========================================================================== */
-
-/*
- * Configuration de la barre de recherche.
- */
 export interface HeaderSearchConfig {
   visible: boolean;
   placeholder?: string;
 }
 
-/* ==========================================================================
-   5. CONFIGURATION COMPLÈTE
-   ========================================================================== */
+/* Identique au système de thème du Footer */
+export interface HeaderTheme {
+  background: string;
+  text: string;
+  muted: string;
+  border: string;
+  primary: string;
+  primaryHover: string;
+  controlBackground: string;
+  controlBorder: string;
+  focusRing: string;
+}
 
-/*
- * Configuration complète attendue par le composant Header.
- */
 export interface HeaderConfig {
   layout: HeaderLayout;
-
   storeName: string;
-
   brand: HeaderBrandConfig;
-
   logo: HeaderLogoConfig;
-
   navigation: HeaderNavigationItem[];
-
   search: HeaderSearchConfig;
+  theme: HeaderTheme;
 }
 
-/* ==========================================================================
-   6. CONFIGURATION PARTIELLE
-   ========================================================================== */
-
-/*
- * Permet de transmettre uniquement les propriétés à personnaliser.
- *
- * Les propriétés absentes utilisent les valeurs par défaut.
- */
 export interface HeaderConfigInput {
   layout?: HeaderLayout;
-
   storeName?: string;
-
   brand?: Partial<HeaderBrandConfig>;
-
   logo?: Partial<HeaderLogoConfig>;
-
   navigation?: HeaderNavigationItem[];
-
   search?: Partial<HeaderSearchConfig>;
+  theme?: Partial<HeaderTheme>;
 }
 
-/* ==========================================================================
-   7. CONFIGURATION PAR DÉFAUT
-   ========================================================================== */
-
-/**
- * Valeurs utilisées lorsqu'un commerçant ne personnalise pas son header.
- */
 export const DEFAULTHEADERCONFIG: HeaderConfig = {
   layout: 'classic',
-
-  storeName: 'Ma boutique',
+  storeName: 'Ma boulangerie',
 
   brand: {
     displayMode: 'logo-and-name',
@@ -144,28 +76,45 @@ export const DEFAULTHEADERCONFIG: HeaderConfig = {
   },
 
   navigation: [
-    {
-      id: 'home',
-      label: 'Accueil',
-      href: '/',
-      visible: true,
-    },
-    {
-      id: 'products',
-      label: 'Produits',
-      href: '/produits',
-      visible: true,
-    },
-    {
-      id: 'contact',
-      label: 'Contact',
-      href: '/contact',
-      visible: true,
-    },
+    { id: 'home', label: 'Accueil', href: '/', visible: true },
+    { id: 'products', label: 'Produits', href: '/produits', visible: true },
+    { id: 'contact', label: 'Contact', href: '/contact', visible: true },
   ],
 
   search: {
     visible: true,
     placeholder: 'Rechercher un produit...',
+  },
+
+  // theme: {
+  //   background: '#fffbeb',      // Fond légèrement crème
+  //   text: '#78350f',            // Texte marron chaud
+  //   primary: '#d97706',         // Couleur principale ambrée / dorée
+  //   primaryHover: '#b45309',    // Survol plus sombre
+  //   border: '#fef3c7',          // Bordures dorées claires
+  //   controlBackground: '#ffffff'
+  // },
+  // theme: {
+  //   background: '#fffbeb',//'#ffffff',
+  //   text: '#78350f',//'#171717',
+  //   muted: '#737373',
+  //   border: '#e5e5e5',
+  //   primary: '#d97706',//'#2563eb',
+  //   primaryHover: '#b45309',//'#1d4ed8',
+  //   controlBackground: '#ffffff',
+  //   controlBorder: '#fef3c7',//'#d4d4d4',
+  //   focusRing: '#ffffff'//'#93c5fd',
+  // },
+  theme: {
+    background: '#111827',      // Fond sombre / presque noir
+    text: '#f9fafb',        // Texte blanc
+    muted: '#737373',
+    border: '#1f2937',          // Bordures sombres
+    primary: '#6366f1',         // Couleur d'accentuation (violet)
+    primaryHover: '#4f46e5',
+    
+    controlBackground: '#1f2937',
+    controlBorder: '#374151',
+    focusRing: '#ffffff'//
   },
 };

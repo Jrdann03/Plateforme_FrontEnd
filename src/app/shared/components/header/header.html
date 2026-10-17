@@ -3,52 +3,52 @@
   [class.layout-classic]="config().layout === 'classic'"
   [class.layout-centered]="config().layout === 'centered'"
   [class.layout-search-focused]="config().layout === 'search-focused'"
+  [style.--header-background]="config().theme.background"
+  [style.--header-text]="config().theme.text"
+  [style.--header-muted]="config().theme.muted"
+  [style.--header-border]="config().theme.border"
+  [style.--header-primary]="config().theme.primary"
+  [style.--header-primary-hover]="config().theme.primaryHover"
+  [style.--header-control-background]="config().theme.controlBackground"
+  [style.--header-control-border]="config().theme.controlBorder"
+  [style.--header-focus-ring]="config().theme.focusRing"
 >
-  <!-- Identité de la boutique -->
-<!-- Identité de la boutique -->
-<div class="header-identity">
-  <a
-    class="store-brand"
-    [href]="config().logo.href || '/'"
-    [attr.aria-label]="'Accueil — ' + config().storeName"
-  >
-    <!-- Logo -->
-    @if (
-      config().logo.visible &&
-      config().logo.imageUrl &&
-      config().brand.displayMode !== 'name-only'
-    ) {
-      <img
-        class="store-logo"
-        [src]="config().logo.imageUrl"
-        [alt]="config().logo.alt || config().storeName"
-      />
-    }
-
-    <!-- Nom commercial -->
-    @if (
-      config().logo.nameVisible &&
-      config().brand.displayMode !== 'logo-only'
-    ) {
-      <span class="store-name">
-        {{ config().storeName }}
-      </span>
-    }
-  </a>
-</div>
-
-  <!-- Navigation principale -->
-  @if (config().navigation.length > 0) {
-    <nav
-      class="store-navigation"
-      aria-label="Navigation principale"
+  <!-- Identité -->
+  <div class="header-identity">
+    <a
+      class="store-brand"
+      [href]="config().logo.href || '/'"
+      [attr.aria-label]="'Accueil — ' + config().storeName"
     >
+      @if (
+        config().logo.visible &&
+        config().logo.imageUrl &&
+        config().brand.displayMode !== 'name-only'
+      ) {
+        <img
+          class="store-logo"
+          [src]="config().logo.imageUrl"
+          [alt]="config().logo.alt || config().storeName"
+        />
+      }
+
+      @if (
+        config().logo.nameVisible &&
+        config().brand.displayMode !== 'logo-only'
+      ) {
+        <span class="store-name">
+          {{ config().storeName }}
+        </span>
+      }
+    </a>
+  </div>
+
+  <!-- Navigation -->
+  @if (config().navigation.length > 0) {
+    <nav class="store-navigation" aria-label="Navigation principale">
       @for (item of config().navigation; track item.id) {
         @if (item.visible !== false) {
-          <a
-            class="nav-link"
-            [href]="item.href"
-          >
+          <a class="nav-link" [href]="item.href">
             {{ item.label }}
           </a>
         }
@@ -56,35 +56,21 @@
     </nav>
   }
 
-  <!-- Recherche de produits -->
+  <!-- Recherche -->
   @if (config().search.visible) {
-    <form
-      class="search-form"
-      role="search"
-      (submit)="onSearchSubmit($event)"
-    >
-      <label
-        class="visually-hidden"
-        [attr.for]="'store-search-' + config().storeName"
-      >
+    <form class="search-form" role="search" (submit)="onSearchSubmit($event)">
+      <label class="visually-hidden" [attr.for]="'store-search-' + config().storeName">
         Rechercher un produit
       </label>
 
-      <span
-        class="search-icon"
-        aria-hidden="true"
-      >
-        ⌕
-      </span>
+      <span class="search-icon" aria-hidden="true">⌕</span>
 
       <input
         [id]="'store-search-' + config().storeName"
         type="search"
         name="query"
         autocomplete="off"
-        [placeholder]="
-          config().search.placeholder || 'Rechercher un produit...'
-        "
+        [placeholder]="config().search.placeholder || 'Rechercher un produit...'"
         [value]="searchTerm()"
         (input)="onSearchInput($event)"
       />
@@ -100,10 +86,7 @@
         </button>
       }
 
-      <button
-        class="search-button"
-        type="submit"
-      >
+      <button class="search-button" type="submit">
         Rechercher
       </button>
     </form>
