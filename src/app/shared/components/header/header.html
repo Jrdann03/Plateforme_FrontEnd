@@ -5,29 +5,37 @@
   [class.layout-search-focused]="config().layout === 'search-focused'"
 >
   <!-- Identité de la boutique -->
-  <div class="header-identity">
-    <a
-  class="store-brand"
-  [href]="config().logo.href || '/'"
-  [attr.aria-label]="'Accueil — ' + config().storeName"
->
-  <!-- Logo -->
-  @if (config().logo.visible && config().logo.imageUrl) {
-    <img
-      class="store-logo"
-      [src]="config().logo.imageUrl"
-      [alt]="config().logo.alt || config().storeName"
-    />
-  }
+<!-- Identité de la boutique -->
+<div class="header-identity">
+  <a
+    class="store-brand"
+    [href]="config().logo.href || '/'"
+    [attr.aria-label]="'Accueil — ' + config().storeName"
+  >
+    <!-- Logo -->
+    @if (
+      config().logo.visible &&
+      config().logo.imageUrl &&
+      config().brand.displayMode !== 'name-only'
+    ) {
+      <img
+        class="store-logo"
+        [src]="config().logo.imageUrl"
+        [alt]="config().logo.alt || config().storeName"
+      />
+    }
 
-  <!-- Nom commercial -->
-  @if (config().logo.nameVisible) {
-    <span class="store-name">
-      {{ config().storeName }}
-    </span>
-  }
-</a>
-  </div>
+    <!-- Nom commercial -->
+    @if (
+      config().logo.nameVisible &&
+      config().brand.displayMode !== 'logo-only'
+    ) {
+      <span class="store-name">
+        {{ config().storeName }}
+      </span>
+    }
+  </a>
+</div>
 
   <!-- Navigation principale -->
   @if (config().navigation.length > 0) {
