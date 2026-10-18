@@ -6,39 +6,78 @@ import { ProductGridSectionConfig } from '../sections.config';
   standalone: true,
   imports: [],
   template: `
-    <section class="product-section">
-      <div class="section-header">
-        <h2>{{ config().title }}</h2>
-        @if (config().subtitle) {
-          <p>{{ config().subtitle }}</p>
-        }
-      </div>
+    <section class="catalog-section">
+      <!-- Titre général (si présent) -->
+      @if (config().title) {
+        <div class="catalog-header">
+          <h2>{{ config().title }}</h2>
+        </div>
+      }
 
-      <div class="products-grid" [class]="'cols-' + (config().columns || 3)">
-        @for (product of config().products; track product.id) {
-          <article class="product-card">
-            @if (product.badge) {
-              <span class="product-badge">{{ product.badge }}</span>
-            }
-            <div class="image-wrapper">
-              @if (product.imageUrl) {
-                <img [src]="product.imageUrl" [alt]="product.name" />
-              } @else {
-                <div class="placeholder-img">📷</div>
+      <!-- Boucle sur chaque groupe / catégorie -->
+      @for (group of config().groups; track group.id) {
+        <div class="product-group-row">
+          
+          <!-- En-tête du groupe avec titre et flèches de navigation -->
+          <div class="group-header">
+            <div class="group-titles">
+              <h3 class="group-title">{{ group.title }}</h3>
+              @if (group.subtitle) {
+                <span class="group-subtitle">{{ group.subtitle }}</span>
               }
             </div>
-            <div class="product-details">
-              @if (product.category) {
-                <span class="product-category">{{ product.category }}</span>
-              }
-              <h3 class="product-name">{{ product.name }}</h3>
-              <p class="product-price">
-                {{ product.price }} {{ product.currency || 'FCFA' }}
-              </p>
+
+            <!-- Boutons de navigation Flèche Gauche / Droite -->
+            <div class="carousel-controls">
+              <button
+                type="button"
+                class="nav-btn"
+                aria-label="Voir produits précédents"
+                (click)="scrollRow(slider, -320)"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                class="nav-btn"
+                aria-label="Voir produits suivants"
+                (click)="scrollRow(slider, 320)"
+              >
+                ›
+              </button>
             </div>
-          </article>
-        }
-      </div>
+          </div>
+
+          <!-- Rail défilant (Slider horizontal) -->
+          <div class="products-slider-wrapper">
+            <div #slider class="products-slider">
+              @for (product of group.products; track product.id) {
+                <article class="product-card">
+                  @if (product.badge) {
+                    <span class="product-badge">{{ product.badge }}</span>
+                  }
+
+                  <div class="image-wrapper">
+                    @if (product.imageUrl) {
+                      <img [src]="product.imageUrl" [alt]="product.name" />
+                    } @else {
+                      <div class="placeholder-img" aria-label="Pas d'image">📷</div>
+                    }
+                  </div>
+
+                  <div class="product-details">
+                    <h4 class="product-name">{{ product.name }}</h4>
+                    <p class="product-price">
+                      {{ product.price }} {{ product.currency || 'FCFA' }}
+                    </p>
+                  </div>
+                </article>
+              }
+            </div>
+          </div>
+
+        </div>
+      }
     </section>
   `,
   styles: [`
@@ -47,44 +86,114 @@ import { ProductGridSectionConfig } from '../sections.config';
       width: 100%;
     }
 
-    .product-section {
-      width: min(100% - 48px, 1200px);
+    .catalog-section {
+      width: min(100% - 64px, 1320px);
       margin: 48px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
     }
 
-    .section-header {
-      margin-bottom: 32px;
-      text-align: center;
+    .catalog-header h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
 
-      h2 {
-        margin: 0 0 8px;
-        font-size: 26px;
-        font-weight: 700;
+    .product-group-row {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 12px;
+
+      .group-titles {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
       }
 
-      p {
+      .group-title {
         margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: #1e293b;
+      }
+
+      .group-subtitle {
         color: #64748b;
-        font-size: 14px;
+        font-size: 13px;
       }
     }
 
-    .products-grid {
-      display: grid;
-      gap: 24px;
+    /* Flèches de navigation */
+    .carousel-controls {
+      display: flex;
+      gap: 8px;
+    }
 
-      &.cols-2 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-      &.cols-3 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-      &.cols-4 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    .nav-btn {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid #cbd5e1;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #1e293b;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.2s ease;     &:hover {
+        background: #2563eb;
+        color: #ffffff;
+        border-color: #2563eb;
+      }
+
+      &:focus-visible {
+        outline: 2px solid #93c5fd;
+        outline-offset: 2px;
+      }
+    }
+
+    /* Conteneur du défilement horizontal */
+    .products-slider-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .products-slider {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 48px) / 4); /* 4 produits visibles simultanément */
+      gap: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 6px 2px 12px;
+      
+      /* Masquer la barre de défilement */
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     .product-card {
       position: relative;
-      overflow: hidden;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
       background: #ffffff;
-      transition: transform 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
 
       &:hover {
         transform: translateY(-4px);
@@ -94,21 +203,20 @@ import { ProductGridSectionConfig } from '../sections.config';
 
     .product-badge {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      top: 10px;
+      left: 10px;
       z-index: 2;
-      padding: 4px 10px;
+      padding: 4px 8px;
       border-radius: 6px;
       background: #111827;
       color: #ffffff;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
     }
 
     .image-wrapper {
-      position: relative;
       width: 100%;
-      height: 200px;
+      height: 170px;
       background: #f8fafc;
 
       img {
@@ -121,39 +229,65 @@ import { ProductGridSectionConfig } from '../sections.config';
         display: grid;
         height: 100%;
         place-items: center;
-        font-size: 36px;
-        color: #cbd5e1;
+        font-size: 32px;
+        background: #f1f5f9;
       }
     }
 
     .product-details {
-      padding: 16px;
-    }
-
-    .product-category {
-      display: block;
-      margin-bottom: 4px;
-      color: #64748b;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      padding: 14px;
     }
 
     .product-name {
-      margin: 0 0 8px;
-      font-size: 15px;
+      margin: 0 0 6px;
+      font-size: 14px;
       font-weight: 600;
       color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .product-price {
       margin: 0;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #2563eb;
+    }
+
+    /* Adaptations Responsive (Tablette & Mobile) */
+    @media (max-width: 1024px) {
+      .products-slider {
+        grid-auto-columns: calc((100% - 32px) / 3); /* 3 sur tablette */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .catalog-section {
+        width: min(100% - 32px, 100%);
+      }
+
+      .products-slider {
+        grid-auto-columns: calc((100% - 16px) / 2); /* 2 sur petit écran */
+      }
+
+      .group-header .group-titles {
+        flex-direction: column;
+        gap: 2px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .products-slider {
+        grid-auto-columns: 85%; /* 1 produit large + aperçu sur mobile */
+      }
     }
   `],
 })
 export class ProductGrid {
   readonly config = input.required<ProductGridSectionConfig>();
+
+  protected scrollRow(element: HTMLElement, offset: number): void {
+    element.scrollBy({ left: offset, behavior: 'smooth' });
+  }
 }

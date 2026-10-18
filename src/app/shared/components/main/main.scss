@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+}
+
+.store-main-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}

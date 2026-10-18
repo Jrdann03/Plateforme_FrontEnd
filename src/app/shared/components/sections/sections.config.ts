@@ -29,13 +29,20 @@ export interface ProductItem {
   badge?: string; // ex: "Nouveau", "Promo", "Best-seller"
 }
 
+/* Nouveau type pour représenter une ligne / catégorie de catalogue */
+export interface ProductGroup {
+  id: string;
+  title: string;          // Ex: "Téléphones Samsung", "Mobilier & Fauteuils"
+  subtitle?: string;       // Ex: "Gamme Galaxy récente"
+  products: ProductItem[];
+}
+
 export interface ProductGridSectionConfig {
   type: 'product-grid';
   id: string;
   visible?: boolean;
-  title: string;
-  subtitle?: string;
-  products: ProductItem[];
+  title?: string;          // Titre général du catalogue (optionnel)
+  groups: ProductGroup[];  // Lignes horizontales thématiques
   columns?: 2 | 3 | 4;
 }
 

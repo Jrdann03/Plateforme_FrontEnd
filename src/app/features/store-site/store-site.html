@@ -2,7 +2,9 @@
   <app-header [config]="resolvedHeaderConfig()" />
 
   <main class="store-main" id="main-content">
-    <ng-content />
+    <app-store-main [config]="mainConfig()">
+      <ng-content />
+    </app-store-main>
   </main>
 
   <app-footer [config]="footerConfig()" />

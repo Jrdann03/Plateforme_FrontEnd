@@ -1,0 +1,17 @@
+<div class="store-main-container">
+  @for (section of config().sections; track section.id) {
+    @if (section.visible !== false) {
+      @switch (section.type) {
+        @case ('hero') {
+          <app-hero-banner [config]="section" />
+        }
+        @case ('product-grid') {
+          <app-product-grid [config]="section" />
+        }
+      }
+    }
+  }
+
+  <!-- Slot pour du contenu additionnel si besoin -->
+  <ng-content />
+</div>

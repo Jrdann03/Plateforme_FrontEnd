@@ -1,22 +1,20 @@
 import { Component, signal } from '@angular/core';
 import { StoreSite } from '../../store-site/store-site';
-import { HeroBanner } from '../../../shared/components/sections/hero-banner/hero-banner';
-import { ProductGrid } from '../../../shared/components/sections/product-grid/product-grid';
 import { HeaderConfigInput } from '../../../shared/components/header/header.config';
 import { StoreFooterConfigInput } from '../../../shared/components/footer/footer.config';
-import { StoreSectionConfig } from '../../../shared/components/sections/sections.config';
+import { StoreMainConfigInput } from '../../../shared/components/main/main.config';
 
 @Component({
   selector: 'app-demo',
   standalone: true,
-  imports: [StoreSite, HeroBanner, ProductGrid],
+  imports: [StoreSite],
   templateUrl: './demo.html',
   styleUrl: './demo.scss',
 })
 export class Demo {
   protected readonly headerConfig = signal<HeaderConfigInput>({
     layout: 'classic',
-    storeName: 'Maison Élégance',
+    storeName: 'Maison Élégance & Tech',
     navigation: [
       { id: 'home', label: 'Accueil', href: '/' },
       { id: 'products', label: 'Produits', href: '/produits' },
@@ -24,11 +22,70 @@ export class Demo {
     ],
   });
 
-protected readonly footerConfig = signal<StoreFooterConfigInput>({
+protected readonly mainConfig = signal<StoreMainConfigInput>({
+  sections: [
+    {
+      type: 'hero',
+      id: 'hero-1',
+      title: 'Grande Braderie 2026',
+      subtitle: 'Découvrez nos meilleures collections high-tech et maison aux meilleurs prix.',
+      ctaText: 'Découvrir le catalogue',
+      ctaLink: '/produits',
+      theme: {
+        backgroundColor: '#1f2937',
+        textColor: '#ffffff',
+        buttonColor: '#2563eb',
+      },
+    },
+    {
+      type: 'product-grid',
+      id: 'catalog-multilines',
+      title: 'Nos Catalogues Produits',
+      groups: [
+        {
+          id: 'samsung-phones',
+          title: 'Téléphones Samsung',
+          subtitle: 'Les derniers modèles Galaxy',
+          products: [
+            { id: 's1', name: 'Samsung Galaxy S24 Ultra', price: 850000, badge: 'Nouveau' },
+            { id: 's2', name: 'Samsung Galaxy A55 5G', price: 275000, badge: 'Best-seller' },
+            { id: 's3', name: 'Samsung Galaxy Z Fold 5', price: 1100000, badge: 'Premium' },
+            { id: 's4', name: 'Samsung Galaxy S23 FE', price: 420000 },
+            { id: 's5', name: 'Samsung Galaxy A35', price: 210000 },
+          ],
+        },
+        {
+          id: 'furniture-living',
+          title: 'Mobilier & Fauteuils',
+          subtitle: 'Confort et design pour votre salon',
+          products: [
+            { id: 'f1', name: 'Fauteuil Nordique Gris', price: 85000, badge: 'Top Vente' },
+            { id: 'f2', name: 'Table basse en bois massif', price: 110000 },
+            { id: 'f3', name: 'Canapé d’angle 4 places', price: 380000 },
+            { id: 'f4', name: 'Buffet Vintage Chêne', price: 195000 },
+          ],
+        },
+        {
+          id: 'appliances',
+          title: 'Électroménager',
+          subtitle: 'Équipements modernes pour la cuisine',
+          products: [
+            { id: 'e1', name: 'Réfrigérateur NoFrost 350L', price: 420000 },
+            { id: 'e2', name: 'Lave-linge Smart 9kg', price: 290000, badge: 'Promo' },
+            { id: 'e3', name: 'Micro-ondes Digital 25L', price: 65000 },
+            { id: 'e4', name: 'Robot Pâtissier Multifonction', price: 125000 },
+          ],
+        },
+      ],
+    },
+  ],
+});
+
+  protected readonly footerConfig = signal<StoreFooterConfigInput>({
     layout: 'classic',
     brand: {
-      name: 'Maison Élégance',
-      description: 'Découvrez notre sélection de produits élégants.',
+      name: 'Maison Élégance & Tech',
+      description: 'Votre plateforme de confiance pour la maison et la technologie.',
       href: '/',
       showLogo: false,
     },
@@ -42,8 +99,8 @@ protected readonly footerConfig = signal<StoreFooterConfigInput>({
       link: '#d1d5db',
       linkHover: '#ffffff',
       focusRing: '#93c5fd',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '14px',
+      fontFamily: 'inherit',
+      fontSize: '13px',
       paddingX: '32px',
       paddingY: '40px',
       columnGap: '36px',
@@ -51,33 +108,4 @@ protected readonly footerConfig = signal<StoreFooterConfigInput>({
       contentMaxWidth: '1200px',
     },
   });
-
-  /* Configuration des sections de la page d'accueil */
-  protected readonly sections = signal<StoreSectionConfig[]>([
-    {
-      type: 'hero',
-      id: 'hero-1',
-      title: 'Collection Élégance 2026',
-      subtitle: 'Découvrez des pièces uniques pensées pour votre style au quotidien.',
-      ctaText: 'Explorer le catalogue',
-      ctaLink: '/produits',
-      theme: {
-        backgroundColor: '#1f2937',
-        textColor: '#ffffff',
-        buttonColor: '#3b82f6',
-      },
-    },
-    {
-      type: 'product-grid',
-      id: 'grid-1',
-      title: 'Nos meilleures ventes',
-      subtitle: 'Sélectionnées spécialement pour vous par nos commerçants.',
-      columns: 3,
-      products: [
-        { id: 'p1', name: 'Fauteuil Nordique', price: 85000, category: 'Mobilier', badge: 'Best-seller' },
-        { id: 'p2', name: 'Lampe d’ambiance', price: 25000, category: 'Éclairage' },
-        { id: 'p3', name: 'Table basse en bois', price: 110000, category: 'Mobilier', badge: 'Nouveau' },
-      ],
-    },
-  ]);
 }

@@ -1,17 +1,5 @@
 <app-store-site
   [headerConfig]="headerConfig()"
+  [mainConfig]="mainConfig()"
   [footerConfig]="footerConfig()"
->
-  @for (section of sections(); track section.id) {
-    @if (section.visible !== false) {
-      @switch (section.type) {
-        @case ('hero') {
-          <app-hero-banner [config]="section" />
-        }
-        @case ('product-grid') {
-          <app-product-grid [config]="section" />
-        }
-      }
-    }
-  }
-</app-store-site>
+/>

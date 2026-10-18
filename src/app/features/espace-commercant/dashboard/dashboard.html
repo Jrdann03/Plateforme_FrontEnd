@@ -1,68 +1,161 @@
-
 <section class="dashboard">
-  <div class="welcome">
-    <div>
-      <p class="eyebrow">VOTRE ESPACE DE TRAVAIL</p>
+  <!-- En-tête -->
+  <header class="dashboard-header">
+    <div class="welcome-text">
+      <span class="eyebrow">Boutique en ligne</span>
       <h1>Bonjour, Amadou 👋</h1>
-      <p class="welcome-description">
-        Bienvenue dans votre espace commerçant. Gérez votre activité en toute simplicité.
-      </p>
+      <p>Voici un aperçu de l'activité de votre boutique aujourd'hui.</p>
     </div>
 
-    <span class="store-badge">
-      <span class="status-dot"></span>
-      Ma boutique
-    </span>
+    <div class="header-actions">
+      <span class="status-badge">
+        <span class="status-dot"></span>
+        Boutique active
+      </span>
+      <a routerLink="/espace/produits" class="btn-primary">+ Ajouter un produit</a>
+    </div>
+  </header>
+
+  <!-- Cartes KPIs (Statistiques clés) -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon revenue">FCFA</div>
+      <div class="kpi-info">
+        <span class="kpi-label">Chiffre d'affaires (Mois)</span>
+        <div class="kpi-value-group">
+          <span class="kpi-value">1 850 000 FCFA</span>
+          <span class="kpi-trend positive">+12.5%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon orders">📦</div>
+      <div class="kpi-info">
+        <span class="kpi-label">Commandes</span>
+        <div class="kpi-value-group">
+          <span class="kpi-value">48</span>
+          <span class="kpi-trend positive">+8%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon visitors">👥</div>
+      <div class="kpi-info">
+        <span class="kpi-label">Visiteurs uniques</span>
+        <div class="kpi-value-group">
+          <span class="kpi-value">1 240</span>
+          <span class="kpi-trend negative">-2.1%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon conversion">🎯</div>
+      <div class="kpi-info">
+        <span class="kpi-label">Taux de conversion</span>
+        <div class="kpi-value-group">
+          <span class="kpi-value">3.8%</span>
+          <span class="kpi-trend positive">+0.4%</span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <section class="quick-access">
-    <div class="section-heading">
-      <h2>Accès rapide</h2>
-      <p>Retrouvez facilement les principales fonctionnalités.</p>
+  <!-- Grille principale : Ventes + Dernières commandes -->
+  <div class="main-dashboard-grid">
+    <!-- Aperçu des ventes (Graphique épuré CSS) -->
+    <div class="dashboard-card chart-card">
+      <div class="card-header">
+        <h3>Aperçu des ventes</h3>
+        <span class="badge-period">7 derniers jours</span>
+      </div>
+      <div class="chart-container">
+        <div class="chart-bars">
+          <div class="bar-col"><div class="bar" style="height: 45%;"></div><span>Lun</span></div>
+          <div class="bar-col"><div class="bar" style="height: 60%;"></div><span>Mar</span></div>
+          <div class="bar-col"><div class="bar" style="height: 35%;"></div><span>Mer</span></div>
+          <div class="bar-col"><div class="bar" style="height: 80%;"></div><span>Jeu</span></div>
+          <div class="bar-col"><div class="bar" style="height: 95%;"></div><span>Ven</span></div>
+          <div class="bar-col"><div class="bar active" style="height: 100%;"></div><span>Sam</span></div>
+          <div class="bar-col"><div class="bar" style="height: 50%;"></div><span>Dim</span></div>
+        </div>
+      </div>
     </div>
 
+    <!-- Commandes récentes -->
+    <div class="dashboard-card orders-card">
+      <div class="card-header">
+        <h3>Commandes récentes</h3>
+        <a routerLink="/espace/commandes" class="card-link">Voir tout</a>
+      </div>
+      <div class="table-responsive">
+        <table class="recent-orders-table">
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Montant</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="client-name">Fatou Sow</div>
+                <div class="order-date">Aujourd'hui, 11:20</div>
+              </td>
+              <td class="amount">85 000 FCFA</td>
+              <td><span class="status-pill completed">Payée</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="client-name">Moussa Ndiaye</div>
+                <div class="order-date">Aujourd'hui, 09:45</div></td>
+              <td class="amount">275 000 FCFA</td>
+              <td><span class="status-pill pending">En cours</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="client-name">Awa Kane</div>
+                <div class="order-date">Hier, 18:30</div>
+              </td>
+              <td class="amount">110 000 FCFA</td>
+              <td><span class="status-pill completed">Payée</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Raccourcis rapides -->
+  <div class="quick-actions-section">
+    <h2>Accès rapide</h2>
     <div class="action-grid">
       <a class="action-card" routerLink="/espace/produits">
-        <span class="action-icon"><span class="symbol">▦</span></span>
-        <span class="action-title">Mes produits</span>
-        <span class="action-description">Gérer votre catalogue de produits.</span>
-        <span class="action-arrow">↗</span>
+        <span class="action-icon">▦</span>
+        <div class="action-text">
+          <span class="action-title">Gérer le catalogue</span>
+          <span class="action-desc">Ajouter ou modifier vos produits</span>
+        </div>
       </a>
 
       <a class="action-card" routerLink="/espace/stock">
-        <span class="action-icon"><span class="symbol">▤</span></span>
-        <span class="action-title">Mon stock</span>
-        <span class="action-description">Organiser les disponibilités.</span>
-        <span class="action-arrow">↗</span>
+        <span class="action-icon">▤</span>
+        <div class="action-text">
+          <span class="action-title">Suivi des stocks</span>
+          <span class="action-desc">Ajuster les quantités en réserve</span>
+        </div>
       </a>
 
       <a class="action-card" routerLink="/espace/commandes">
-        <span class="action-icon"><span class="symbol">▣</span></span>
-        <span class="action-title">Mes commandes</span>
-        <span class="action-description">Retrouver les commandes de vos clients.</span>
-        <span class="action-arrow">↗</span>
-      </a>
-
-      <a class="action-card" routerLink="/espace/clients">
-        <span class="action-icon"><span class="symbol">♙</span></span>
-        <span class="action-title">Mes clients</span>
-        <span class="action-description">Consulter votre clientèle.</span>
-        <span class="action-arrow">↗</span>
+        <span class="action-icon">▣</span>
+        <div class="action-text">
+          <span class="action-title">Traiter les commandes</span>
+          <span class="action-desc">3 commandes en attente d'expédition</span>
+        </div>
       </a>
     </div>
-  </section>
-
-  <section class="getting-started">
-    <div class="getting-started-icon">✦</div>
-    <div>
-      <h2>Votre boutique, votre espace</h2>
-      <p>
-        Commencez par organiser vos produits. Vous pourrez ensuite gérer vos stocks,
-        vos commandes et vos clients depuis le même endroit.
-      </p>
-      <a routerLink="/espace/produits" class="text-link">
-        Découvrir les produits <span aria-hidden="true">→</span>
-      </a>
-    </div>
-  </section>
+  </div>
 </section>
